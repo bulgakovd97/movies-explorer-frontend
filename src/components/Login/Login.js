@@ -1,8 +1,18 @@
 import Logo from '../Logo/Logo';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import { Link } from 'react-router-dom';
+import { useFormWithValidation } from '../../hooks/useForm';
 
-function Login() {
+
+function Login({ onLogin, showError, errorMessage }) {
+    const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        onLogin(values);
+    };
+
     return (
         <section className='login'>
             <div className='login__container'>
@@ -12,7 +22,11 @@ function Login() {
                     Рады видеть!
                 </h2>
 
-                <ProfileForm formName='login'>
+                <ProfileForm
+                    name='login'
+                    label='Авторизация'
+                    onSubmit={handleSubmit}
+                >
                     <label className='profile-form__label profile-form__label_type_email' for='email-input'>
                         E-mail
                     </label>
@@ -21,13 +35,15 @@ function Login() {
                         id='email-input'
                         type='email'
                         name='email'
+                        value={values.email || ''}
                         placeholder='Введите Email'
                         required
                         minLength='2'
                         maxLength='30'
+                        onChange={handleInputChange}
                     />
-                    <span className='profile-form__error profile-form__error_visible'>
-                        Что-то пошло не так...
+                    <span className={`profile-form__error ${!isValid && 'profile-form__error_visible'}`}>
+                        {errors.email || ''}
                     </span>
                     <label className='profile-form__label profile-form__label_type_password' for='password-input'>
                         Пароль
@@ -37,15 +53,24 @@ function Login() {
                         id='password-input'
                         type='password'
                         name='password'
+                        value={values.password || ''}
                         placeholder='Введите пароль'
                         required
-                        minLength='6'
+                        minLength='8'
                         maxLength='20'
+                        onChange={handleInputChange}
                     />
-                    <span className='profile-form__error profile-form__error_visible'>
-                        Что-то пошло не так...
+                    <span className={`profile-form__error ${!isValid && 'profile-form__error_visible'}`}>
+                        {errors.password || ''}
                     </span>
-                    <button className='profile-form__button profile-form__button_type_signin' type='submit'>
+                    <span className={`login__error ${showError && 'login__error_visible'}`}>
+                        {errorMessage}
+                    </span>
+                    <button
+                        className={`profile-form__button ${!isValid && 'profile-form__button_disabled'}`}
+                        type='submit'
+                        disabled={!isValid}
+                        >
                         Войти
                     </button>
                     <div className='profile-form__caption'>

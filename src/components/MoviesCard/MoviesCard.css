@@ -4,23 +4,36 @@
     background-color: #222;
     max-height: 281px;
     position: relative;
+    overflow: hidden;
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card__link {
+
 }
 
 .card__image {
     min-height: 158px;
     width: 100%;
-    object-fit: cover;
+    height: 72.25%;
+    object-fit: fill;
     display: block;
+    opacity: 1;
+    transition: opacity 0.2s linear;
+}
+
+.card__image:hover {
+    opacity: .5;
 }
 
 .card__caption-field {
-    display: flex;
+    display: grid;
+    grid-template-columns: 80% 8%;
+    column-gap: 12px;
+    row-gap: 17px;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    row-gap: 17px;
-    padding: 4.399% 6.596% 4.399% 4.399%;
+    padding: 4.399%;
     box-sizing: border-box;
 }
 
@@ -36,6 +49,10 @@
     white-space: nowrap;
     overflow: hidden;
     color: #FFFFFF;
+}
+
+.card__like {
+    justify-self: end;
 }
 
 .card__like-button {
@@ -85,7 +102,7 @@
 
     .card__caption-field {
         row-gap: 15px;
-        padding: 4.13% 6.49% 4.13% 4.13%;
+        padding: 4.13%;
     }
 
     .card__title {
@@ -98,10 +115,14 @@
         max-height: 390px;
     }
 
+    .card__image {
+        max-height: 280px;
+    }
+
     .card__caption-field {
         width: 97%;
         row-gap: 14px;
-        padding: 4.67% 6% 4.67% 4.67%;
+        padding: 4.67%;
     }
 
     .card__title {
@@ -113,5 +134,11 @@
     .card__duration {
         font-size: 10px;
         line-height: 12px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .card__image {
+        max-height: 168px;
     }
 }

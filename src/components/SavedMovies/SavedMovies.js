@@ -3,10 +3,10 @@ import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function SavedMovies() {
+function SavedMovies({ isLoggedIn }) {
     return (
         <section className='saved-movies'>
-            <Header />
+            <Header isLoggedIn={isLoggedIn} />
 
             <SearchForm />
 

@@ -4,6 +4,22 @@
     margin: 6.141% 5.469% 7.018%;
 }
 
+.movies-cards__error {
+    visibility: hidden;
+    width: 80%;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    height: 50px;
+    margin: 0 auto;
+    color: #EE3465;
+}
+
+.movies-cards__error_visible {
+    visibility: visible;
+}
+
 .elements {
     width: 100%;
     list-style: none;
@@ -50,6 +66,12 @@
         width: 92.188%;
     }
 
+    .movies-cards__error {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+
     .elements {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 30px;
@@ -65,6 +87,11 @@
     .movies-cards {
         margin: 12.5% auto 0;
         width: 93.75%;
+    }
+
+    .movies-cards__error {
+        font-size: 11px;
+        line-height: 13px;
     }
 
     .elements {

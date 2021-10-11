@@ -1,17 +1,21 @@
-import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 function WrongRoute() {
+    const history = useHistory();
+
     return (
         <section className='wrong-route'>
-            <p className='wrong-route__error-code'>
-                404
-            </p>
-            <p className='wrong-route__error-text'>
-                Страница не найдена
-            </p>
-            <Link className='wrong-route__link' to='/'>
-                Назад
-            </Link>
+            <div className='wrong-route__wrapper'>
+                <p className='wrong-route__error-code'>
+                    404
+                </p>
+                <p className='wrong-route__error-text'>
+                    Страница не найдена
+                </p>
+                <button className='wrong-route__button' onClick={() => history.goBack()}>
+                    Назад
+                </button>
+            </div>
         </section>
     )
 }

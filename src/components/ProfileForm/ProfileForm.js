@@ -1,6 +1,6 @@
-function ProfileForm({formName, children}) {
+function ProfileForm({name, onSubmit, children}) {
     return (
-        <form className='profile-form' name={`${formName}-form`}>
+        <form className='profile-form' name={`${name}-form`} onSubmit={onSubmit}>
             <fieldset className='profile-form__fieldset'>
                 {children}
             </fieldset>

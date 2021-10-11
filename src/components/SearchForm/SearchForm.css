@@ -48,8 +48,8 @@
 
 .search-form__button {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 6px;
+    right: 6px;
     width: 34px;
     height: 34px;
     background-image: url('../../images/search-button.svg');
@@ -161,7 +161,7 @@
     }
 
     .search-form__button {
-        top: 2px;
+        top: 3px;
         right: 2px;
     }
 

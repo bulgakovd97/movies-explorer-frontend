@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { moviesUrl } from '../../utils/options';
 
-function MoviesCard({ movie, children }) {
+function MoviesCard({ movie }) {
     const [isLikeClicked, setIsLikeClicked] = useState(false);
+
+    const getTimeFromMins = (mins) => {
+        let hours = Math.trunc(mins / 60);
+        let minutes = mins % 60;
+
+        const newDuration = hours + 'ч ' + minutes + 'м';
+        return newDuration;
+    }
     
     const handleLikeClick = () => {
         setIsLikeClicked(!isLikeClicked);
@@ -9,14 +18,16 @@ function MoviesCard({ movie, children }) {
     
     return (
         <li className='card'>
-             <img
-                className='card__image'
-                alt={movie.title}
-                src={movie.image}
-            />
+            <a className='card__link' href={movie.trailerLink} target='_blank' rel='noreferrer'>
+                <img
+                    className='card__image'
+                    alt={movie.nameRU}
+                    src={moviesUrl + movie.image.url}
+                />
+            </a>
             <div className='card__caption-field'>
                 <h2 className='card__title'>
-                    {movie.title}
+                    {movie.nameRU}
                 </h2>
                 <div className='card__like'>
                     <button
@@ -27,7 +38,7 @@ function MoviesCard({ movie, children }) {
                     ></button>
                 </div>
                 <p className='card__duration'>
-                    {movie.duration}
+                    {getTimeFromMins(movie.duration)}
                 </p>
             </div>
         </li>

@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
+import { useFormWithValidation } from '../../hooks/useForm';
 
-function Profile() {
+function Profile({ isLoggedIn, onUpdateUser, showError, errorMessage, onLogout }) {
+    const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+
+    const currentUser = useContext(CurrentUserContext);
+
     const [isEditClicked, setIsEditClicked] = useState(false);
     const [isSaveClicked, setIsSaveClicked] = useState(false);
 
@@ -16,15 +21,21 @@ function Profile() {
         
         setIsSaveClicked(true);
         setIsEditClicked(false);
+
+        onUpdateUser(values);
     }
+
+    const handleLogout = () => {
+        onLogout();
+    };
 
     return (
         <section className='profile'>
-            <Header />
+            <Header isLoggedIn={isLoggedIn} />
 
             <div className='profile__container'>
                 <h2 className='profile__greeting'>
-                    Привет, Денис!
+                    {`Привет, ${currentUser.name}!`}
                 </h2>
                 <form 
                     className='profile__form'
@@ -41,13 +52,18 @@ function Profile() {
                                 id='name-input'
                                 type='text'
                                 name='name'
+                                value={!isEditClicked ? currentUser.name : values.name}
                                 placeholder='Ваше имя'
                                 required
                                 minLength='2'
                                 maxLength='30'
-                                defaultValue='Денис'
+                                onChange={handleInputChange}
+                                disabled={!isEditClicked}
                             />
                         </div>
+                        <span className={`profile__input-error ${!isValid && 'profile__input-error_visible'}`}>
+                            {errors.name || ''}
+                        </span>
                         <div className='profile__input-container'>
                             <label className='profile__label profile__label_type_email' for='email-input'>
                                 E-mail
@@ -57,15 +73,20 @@ function Profile() {
                                 id='email-input'
                                 type='email'
                                 name='email'
+                                value={!isEditClicked ? currentUser.email : values.email}
                                 placeholder='Ваш E-mail'
                                 required
                                 minLength='2'
                                 maxLength='30'
-                                defaultValue='bulgakovd@yandex.ru'
+                                onChange={handleInputChange}
+                                disabled={!isEditClicked}
                             />
                         </div>
-                        <span className='profile__error profile__error_visible'>
-                            При обновлении профиля произошла ошибка.
+                        <span className={`profile__input-error ${!isValid && 'profile__input-error_visible'}`}>
+                            {errors.email || ''}
+                        </span>
+                        <span className={`profile__error ${showError && 'profile__error_visible'}`}>
+                            {errorMessage}
                         </span>
                         <button
                             className={`profile__edit-button ${isEditClicked && 'profile__edit-button_hidden'}`}
@@ -74,15 +95,16 @@ function Profile() {
                         >
                             Редактировать
                         </button>
-                        <Link
+                        <button
                             className={`profile__logout ${isEditClicked && 'profile__logout_hidden'}`}
-                            to='/signin'
+                            onClick={handleLogout}
                         >
                             Выйти из аккаунта
-                        </Link>
+                        </button>
                         <button
-                            className={`profile__save-button ${(!isEditClicked || isSaveClicked) && 'profile__save-button_hidden'}`}
+                            className={`profile__save-button ${(!isEditClicked || isSaveClicked) && 'profile__save-button_hidden'} ${!isValid && 'profile__save-button_disabled'}`}
                             type='submit'
+                            disabled={!isValid}
                         >
                             Сохранить
                         </button>

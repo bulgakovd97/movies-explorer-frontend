@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink, Route, Switch } from 'react-router-dom';
 
-function Navigation() {
+function Navigation({ isLoggedIn }) {
     const [isHamburgerMenuClicked, setIsHamburgerMenuClicked] = useState(false);
     
     const handleHamburgerOpen = () => {
@@ -12,23 +12,9 @@ function Navigation() {
         setIsHamburgerMenuClicked(false);
     };
 
-    // const [isMenuBurger, setIsMenuBurger] = useState(false);
-
-    // const checkWindowSize = () => {
-    //     if (window.innerWidth <= 768) {
-    //         return setIsMenuBurger(true);
-    //     } else {
-    //         return;
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     checkWindowSize();
-    // });
-
     return (
         <Switch>
-            <Route exact path='/'>
+            {/* <Route exact path='/'>
                 <div className='navigation'>
                     <Link className='navigation__register' to='/signup'>
                         Регистрация
@@ -39,14 +25,60 @@ function Navigation() {
                         </div>
                     </Link>
                 </div>    
-            </Route>
+            </Route> */}
 
-            <Route>
-                {/* {isMenuBurger ? (
-                    <div className='navigation-auth-burger'>
-                        <div className='navigation-auth__popup navigation-auth__popup_opened'>
+            {/* <Route>
+                <button className='navigation-auth-burger' type='button' onClick={handleHamburgerOpen} />
+                <div className={`navigation-auth__popup ${isHamburgerMenuClicked && 'navigation-auth__popup_opened'}`}>
+                    <div className='navigation-auth-burger__container'>
+                        <button className='navigation-auth__close-button' type='button' onClick={handleHamburgerClose} />
+                        <div className='navigation-auth__movies'>
+                            <NavLink className='navigation-auth__main-page' activeClassName='navigation__main-page-movies_selected' to='/'>
+                                Главная
+                            </NavLink>
+                            <NavLink className='navigation-auth__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
+                                Фильмы
+                            </NavLink>
+                            <NavLink className='navigation-auth__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
+                                Сохранённые фильмы
+                            </NavLink>
+                        </div>
+                        <div className='navigation-auth__account-container'>  
+                            <Link className='navigation-auth__account' to='/profile'>
+                                Аккаунт
+                            </Link>
+                            <Link className='navigation-auth__account-icon' to='/profile'>
+                            </Link>
+                    </div>
+                    </div>
+                </div>
+
+                <div className='navigation-auth'>
+                    <div className='navigation__movies'>
+                        <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
+                            Фильмы
+                        </NavLink>
+                        <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
+                            Сохранённые фильмы
+                        </NavLink>
+                    </div>
+                    <div className='navigation__account-container'>  
+                        <Link className='navigation__account' to='/profile'>
+                            Аккаунт
+                        </Link>
+                        <Link className='navigation__account-icon' to='/profile'>
+                        </Link>
+                    </div>
+                </div>
+            </Route> */}
+
+            <>
+                { isLoggedIn ? (
+                    <>
+                        <button className='navigation-auth-burger' type='button' onClick={handleHamburgerOpen} />
+                        <div className={`navigation-auth__popup ${isHamburgerMenuClicked && 'navigation-auth__popup_opened'}`}>
                             <div className='navigation-auth-burger__container'>
-                                <button className='navigation-auth__close-button' type='button' />
+                                <button className='navigation-auth__close-button' type='button' onClick={handleHamburgerClose} />
                                 <div className='navigation-auth__movies'>
                                     <NavLink className='navigation-auth__main-page' activeClassName='navigation__main-page-movies_selected' to='/'>
                                         Главная
@@ -64,108 +96,42 @@ function Navigation() {
                                     </Link>
                                     <Link className='navigation-auth__account-icon' to='/profile'>
                                     </Link>
-                                </div>
+                            </div>
                             </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className='navigation-auth'>
-                        <div className='navigation__movies'>
-                            <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
-                                Фильмы
-                            </NavLink>
-                            <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
-                                Сохранённые фильмы
-                            </NavLink>
-                        </div>
-                        <div className='navigation__account-container'>  
-                            <Link className='navigation__account' to='/profile'>
-                                Аккаунт
-                            </Link>
-                            <Link className='navigation__account-icon' to='/profile'>
-                            </Link>
-                        </div>
-                    </div> */}
-
-
-                    <button className='navigation-auth-burger' type='button' onClick={handleHamburgerOpen} />
-                    <div className={`navigation-auth__popup ${isHamburgerMenuClicked && 'navigation-auth__popup_opened'}`}>
-                        <div className='navigation-auth-burger__container'>
-                            <button className='navigation-auth__close-button' type='button' onClick={handleHamburgerClose} />
-                            <div className='navigation-auth__movies'>
-                                <NavLink className='navigation-auth__main-page' activeClassName='navigation__main-page-movies_selected' to='/'>
-                                    Главная
-                                </NavLink>
-                                <NavLink className='navigation-auth__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
+        
+                        <div className='navigation-auth'>
+                            <div className='navigation__movies'>
+                                <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
                                     Фильмы
                                 </NavLink>
-                                <NavLink className='navigation-auth__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
+                                <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
                                     Сохранённые фильмы
                                 </NavLink>
                             </div>
-                            <div className='navigation-auth__account-container'>  
-                                <Link className='navigation-auth__account' to='/profile'>
+                            <div className='navigation__account-container'>  
+                                <Link className='navigation__account' to='/profile'>
                                     Аккаунт
                                 </Link>
-                                <Link className='navigation-auth__account-icon' to='/profile'>
+                                <Link className='navigation__account-icon' to='/profile'>
                                 </Link>
                             </div>
                         </div>
-                    </div>
+                    </>
+                ) : (
+                    <div className='navigation'>
+                        <Link className='navigation__register' to='/signup'>
+                            Регистрация
+                        </Link>
+                        <Link className='navigation__login' to='/signin'>
+                            <div className='navigation__login-background'>
+                                Войти
+                            </div>
+                        </Link>
+                    </div> 
+                )}
+            </>
 
-                    <div className='navigation-auth'>
-                        <div className='navigation__movies'>
-                            <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
-                                Фильмы
-                            </NavLink>
-                            <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
-                                Сохранённые фильмы
-                            </NavLink>
-                        </div>
-                        <div className='navigation__account-container'>  
-                            <Link className='navigation__account' to='/profile'>
-                                Аккаунт
-                            </Link>
-                            <Link className='navigation__account-icon' to='/profile'>
-                            </Link>
-                        </div>
-                    </div>
-
-                {/* <div className='navigation-auth'>
-                    <div className='navigation__movies'>
-                        <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
-                            Фильмы
-                        </NavLink>
-                        <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
-                            Сохранённые фильмы
-                        </NavLink>
-                    </div>
-                    <div className='navigation__account-container'>  
-                        <Link className='navigation__account' to='/profile'>
-                            Аккаунт
-                        </Link>
-                        <Link className='navigation__account-icon' to='/profile'>
-                        </Link>
-                    </div>
-                </div>
-                <div className='navigation-auth-burger'>
-                    <div className='navigation__movies'>
-                        <NavLink className='navigation__all-movies' activeClassName='navigation__all-movies_selected' to='/movies'>
-                            Фильмы
-                        </NavLink>
-                        <NavLink className='navigation__saved-movies' activeClassName='navigation__saved-movies_selected' to='/saved-movies'>
-                            Сохранённые фильмы
-                        </NavLink>
-                    </div>
-                    <div className='navigation__account-container'>  
-                        <Link className='navigation__account' to='/profile'>
-                            Аккаунт
-                        </Link>
-                        <Link className='navigation__account-icon' to='/profile'>
-                        </Link>
-                    </div>
-                </div> */}
-            </Route>
         </Switch>
     )
 }

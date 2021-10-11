@@ -189,7 +189,7 @@
     flex-direction: column;
     gap: 28px;
     align-items: center;
-    padding: 159px 0 621px;
+    padding: 159px 0 45vh;
 }
 
 .navigation-auth__main-page {
@@ -312,7 +312,7 @@
     }
 
     .navigation-auth__movies {
-        padding: 144px 0 444px;
+        padding-top: 144px;
     }
 
     .navigation-auth__main-page_selected {

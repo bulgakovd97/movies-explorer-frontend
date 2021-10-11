@@ -11,6 +11,7 @@
 }
 
 .profile-form__label {
+    margin-top: 6px;
     margin-bottom: 5px;
     font-weight: 400;
     font-size: 10px;
@@ -54,7 +55,7 @@
 .profile-form__error {
     visibility: hidden;
     margin-top: 6px;
-    height: 18px;
+    min-height: 24px;
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
@@ -86,12 +87,15 @@
     cursor: pointer;
 }
 
-.profile-form__button_type_signup {
-    margin-top: 33.84%;
+.profile-form__button_disabled {
+    background-color: #424242;
+    opacity: .2;
+    color: #c2c2c2;
 }
 
-.profile-form__button_type_signin {
-    margin-top: 55.81%;
+.profile-form__button_disabled:hover {
+    cursor: auto;
+    opacity: .2;
 }
 
 .profile-form__caption {
@@ -137,13 +141,5 @@
 
     .profile-form__caption-link {
         margin-left: 7px;
-    }
-
-    .profile-form__button_type_signup {
-        margin-top: 85.385%;
-    }
-
-    .profile-form__button_type_signin {
-        margin-top: 145.77%;;
     }
 }
