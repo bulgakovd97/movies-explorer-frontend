@@ -1,4 +1,4 @@
-import { mainOptions } from './options';
+import { MAIN_OPTIONS } from './options';
 
 class Api {
     constructor(config) {
@@ -45,6 +45,50 @@ class Api {
         body: JSON.stringify({ name, email }),
       }).then(this._checkResponse);
     }
+
+    getMovies() {
+      return fetch(`${this.url}/movies`, {
+        headers: {
+          ...this.headers,
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+      }).then(this._checkResponse);
+    }
+
+    saveMovie({ 
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      thumbnail,
+      id,
+      nameRU,
+      nameEN,
+     }) {
+      return fetch(`${this.url}/movies`, {
+        method: 'POST',
+        headers: {
+          ...this.headers,
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+        body: JSON.stringify({ 
+          country,
+          director,
+          duration,
+          year,
+          description,
+          image,
+          trailerLink,
+          thumbnail,
+          id,
+          nameRU,
+          nameEN,
+         }),
+      }).then(this._checkResponse);
+    }
   
     // addCard(name, link) {
     //   return fetch(`${this.url}/cards`, {
@@ -78,6 +122,6 @@ class Api {
     // }
   }
   
-  const mainApi = new Api(mainOptions);
+  const mainApi = new Api(MAIN_OPTIONS);
   
   export default mainApi;

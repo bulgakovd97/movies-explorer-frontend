@@ -182,19 +182,21 @@
     display: none;
 }
 
-.profile__error {
-    visibility: hidden;
+.profile__message {
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;
     text-align: center;
     height: 14px;
     margin: 42.35% auto 16px;
+}
+
+.profile__message_error {
     color: #EE3465;
 }
 
-.profile__error_visible {
-    visibility: visible;
+.profile__message_success {
+    color: #4285F4;
 }
 
 
@@ -231,7 +233,7 @@
         line-height: 15px;
     }
 
-    .profile__error {
+    .profile__message {
         margin-top: 134.235%;
     }
 }

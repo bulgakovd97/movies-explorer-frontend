@@ -1,4 +1,15 @@
-function SearchForm({ onSearch, searchTerm, setSearchTerm }) {
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+function SearchForm({ onSearch, onSavedSearch, searchTerm, setSearchTerm, checked, setChecked }) {
+    const location = useLocation();
+
+    const handleCheckboxChange = (evt) => {
+        setChecked(!checked);
+
+        handleSearch(evt);
+    };
+
     const handleInputChange = (evt) => {
         setSearchTerm(evt.target.value);
     };
@@ -6,10 +17,20 @@ function SearchForm({ onSearch, searchTerm, setSearchTerm }) {
     const handleSearch = (evt) => {
         evt.preventDefault();
 
-        onSearch();
-
-        setSearchTerm('');
+        if (location.pathname === '/movies') {
+            onSearch();
+        } else if (location.pathname === '/saved-movies') {
+            onSavedSearch();
+        } else {
+            return;
+        }
     };
+
+    useEffect(() => {
+        setSearchTerm('');
+        setChecked(false);
+    }, [location.pathname]);
+
 
     return (
         <section className='search'>
@@ -29,11 +50,12 @@ function SearchForm({ onSearch, searchTerm, setSearchTerm }) {
                 <div className='search-form__short-wrapper'>
                     <label className='search-form__short-label'>
                         Короткометражки
-                        <input className='search-form__short-input' type='checkbox' value='short' />
+                        <input className='search-form__short-input' type='checkbox' value='short' checked={checked} onChange={handleCheckboxChange} />
                         <span className='search-form__fake-input'></span>
                     </label>
                 </div>
             </form>
+            <p className='text'>checked: {checked ? 'true' : 'false'}</p>
         </section>
     )
 }

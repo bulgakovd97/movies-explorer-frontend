@@ -1,4 +1,4 @@
-export const errorMessages = {
+export const ERROR_MESSAGES = {
     USER_UPDATE: 'При обновлении профиля произошла ошибка',
     EMAIL_EXISTS: 'Пользователь с таким E-mail уже существует',
     BAD_REQUEST: 'Некорректно заполнены поля',

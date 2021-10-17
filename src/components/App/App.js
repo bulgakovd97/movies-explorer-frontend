@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -12,7 +12,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import mainApi from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { errorMessages } from '../../utils/errorMessage';
+import { ERROR_MESSAGES } from '../../utils/errorMessage';
 
 
 function App() {
@@ -25,15 +25,58 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showError, setShowError] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [noMoviesFound, setNoMoviesFound] = useState(false);
+  const [noKeyword, setNoKeyword] = useState(false);
+
+  const [checked, setChecked] = useState(false);
+
   const history = useHistory();
   const location = useLocation();
 
   const { USER_UPDATE,
           EMAIL_EXISTS,
           BAD_REQUEST,
-          NO_AUTH } = errorMessages;
+          NO_AUTH,
+          NOT_FOUND,
+          NO_KEYWORD, } = ERROR_MESSAGES;
+  
+          
+  const filterMovies = (movies) => {
+    const keyword = searchTerm.trim();
 
+    const searchedMovies = movies.filter(movie => {
+      if (!keyword) {
+        return null;
+      } else if (movie.nameRU.toLowerCase().includes(keyword.toLowerCase())) {
+        if (checked) {
+          return movie.duration <= 40;
+        } else {
+          return movie;
+        }
+      } else {
+        return null;
+      }
+    });
 
+    if (searchedMovies.length === 0 && keyword !== '') {
+      setNoMoviesFound(true);
+    
+      setShowError(true);
+      setErrorMessage(NOT_FOUND);
+    } else if (!keyword) {
+      setNoKeyword(true);
+      
+      setShowError(true);
+      setErrorMessage(NO_KEYWORD);
+    }
+
+    localStorage.setItem('searched-movies', JSON.stringify(searchedMovies));
+
+    return searchedMovies;
+  };
+  
   const getUser = (token) => {
     return mainApi
       .getUser(token)
@@ -53,6 +96,8 @@ function App() {
 
         setShowError(false);
         setErrorMessage('');
+
+
       })
       .catch(err => {
         setShowError(true);
@@ -138,8 +183,7 @@ function App() {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('movies');
+    localStorage.clear();
     setIsLoggedIn(false);
     history.push('/');
   };
@@ -155,6 +199,12 @@ function App() {
     setShowError(false);
     setErrorMessage('');
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (isLoggedIn && (location.pathname === '/signin' || location.pathname === '/signup')) {
+      history.push('/');
+    }
+  }, [isLoggedIn, history, location.pathname]);
 
 
   return (
@@ -197,12 +247,37 @@ function App() {
               setShowError={setShowError}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              noMoviesFound={noMoviesFound}
+              setNoMoviesFound={setNoMoviesFound}
+              noKeyword={noKeyword}
+              setNoKeyword={setNoKeyword}
+              filterMovies={filterMovies}
+              checked={checked}
+              setChecked={setChecked}
               isChecking={isChecking}
             />
 
-            <Route path='/saved-movies'>
-              <SavedMovies isLoggedIn={isLoggedIn} />
-            </Route>
+            <ProtectedRoute
+              path='/saved-movies'
+              component={SavedMovies}
+              isLoggedIn={isLoggedIn}
+              showError={showError}
+              setShowError={setShowError}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              noMoviesFound={noMoviesFound}
+              setNoMoviesFound={setNoMoviesFound}
+              noKeyword={noKeyword}
+              setNoKeyword={setNoKeyword}
+              filterMovies={filterMovies}
+              checked={checked}
+              setChecked={setChecked}
+              isChecking={isChecking}
+            />
             
             <Route path='*'>
               <WrongRoute />

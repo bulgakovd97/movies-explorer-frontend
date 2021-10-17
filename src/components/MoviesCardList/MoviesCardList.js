@@ -1,11 +1,13 @@
 import { useState, useContext, useEffect } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import savedMovies from '../../utils/savedMovies';
 import { Route, Switch } from 'react-router';
 import { MoviesContext } from '../../contexts/MoviesContext';
+import { SavedMoviesContext } from '../../contexts/SavedMoviesContext';
+
 
 function MoviesCardList({ showError, errorMessage, noMoviesFound, noKeyword }) {
     const movies = useContext(MoviesContext);
+    const savedMovies = useContext(SavedMoviesContext);
 
     const [amountOfItemsToShow, setAmountOfItemsToShow] = useState(0);
 
@@ -21,15 +23,26 @@ function MoviesCardList({ showError, errorMessage, noMoviesFound, noKeyword }) {
         }
     };
 
+    const handleMoreClick = () => {
+        if (window.innerWidth >= 1015) {
+            setAmountOfItemsToShow(amountOfItemsToShow + 3);
+        } else {
+            setAmountOfItemsToShow(amountOfItemsToShow + 2);
+        }
+    };
+
     useEffect(() => {
         showInitialAmountOfMovie();
+        window.addEventListener('resize', () => {
+            setTimeout(showInitialAmountOfMovie, 2000);
+        });
+
+
+        return () => {
+            window.removeEventListener('resize', showInitialAmountOfMovie);
+        };
     }, []);
 
-    window.addEventListener('resize', showInitialAmountOfMovie);
-
-    const handleMoreClick = () => {
-        setAmountOfItemsToShow(amountOfItemsToShow + 3);
-    };
 
     return (
         <section className='movies-cards'>
@@ -47,19 +60,22 @@ function MoviesCardList({ showError, errorMessage, noMoviesFound, noKeyword }) {
                                             />
                                         )).slice(0, amountOfItemsToShow)}
                                     </Route>
-                                    <Route path='/saved-movies'>
-                                        {/* {savedMovies.map((movie) => (
+                                    {/* <Route path='/saved-movies'>
+                                        {savedMovies.map((movie) => (
                                             <MoviesCard
                                                 movie={movie}
                                                 key={movie.id}
                                             />
-                                        ))} */}
-                                    </Route>
+                                        )).slice(0, amountOfItemsToShow)}
+                                    </Route> */}
                                 </Switch>
                             </ul>
-                            <button className={`elements__more-button ${(amountOfItemsToShow < 3 || amountOfItemsToShow >= movies.length) && 'elements__more-button_invisible'}`} type='button' onClick={handleMoreClick}>
-                                Ещё
-                            </button>
+
+                            {movies.length !== 0 && (
+                                <button className={`elements__more-button ${(amountOfItemsToShow < 3 || amountOfItemsToShow >= movies.length) && 'elements__more-button_invisible'}`} type='button' onClick={handleMoreClick}>
+                                    Ещё
+                                </button>
+                            )}
                         </>
                     )}
 
@@ -75,6 +91,39 @@ function MoviesCardList({ showError, errorMessage, noMoviesFound, noKeyword }) {
                     {errorMessage}
                 </span>
             )}
+
+                        
+                            {/* <ul className='elements'>
+                                <Switch>
+                                    <Route path='/movies'>
+                                        {movies && (
+                                            movies.map((movie) => (
+                                                <MoviesCard
+                                                    movie={movie}
+                                                    key={movie.id}
+                                                />
+                                            )).slice(0, amountOfItemsToShow)
+                                        )}
+                                    </Route>
+                                    <Route path='/saved-movies'>
+                                        {savedMovies && (
+                                            savedMovies.map((movie) => (
+                                                <MoviesCard
+                                                    movie={movie}
+                                                    key={movie.id}
+                                                />
+                                            )).slice(0, amountOfItemsToShow)
+                                        )}
+                                    </Route>
+                                </Switch>
+                            </ul> */}
+
+                            {/* {movies.length !== 0 && (
+                                <button className={`elements__more-button ${(amountOfItemsToShow < 3 || amountOfItemsToShow >= movies.length) && 'elements__more-button_invisible'}`} type='button' onClick={handleMoreClick}>
+                                    Ещё
+                                </button>
+                            )} */}
+
         </section>
     )
 }

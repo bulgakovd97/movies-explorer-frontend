@@ -81,8 +81,26 @@
 }
 
 .card__like-button_active:hover {
+    opacity: 0.5;
+}
+
+.card__delete-button {
     background-image: url('../../images/remove.svg');
-    opacity: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 14px;
+    height: 12px;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    transition: background-image opacity 0.2s linear;
+}
+
+.card__delete-button:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 .card__duration {

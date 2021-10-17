@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import { useFormWithValidation } from '../../hooks/useForm';
 
 function Profile({ isLoggedIn, onUpdateUser, showError, errorMessage, onLogout }) {
-    const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+    const { values, setValues, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
     const currentUser = useContext(CurrentUserContext);
 
@@ -14,6 +14,8 @@ function Profile({ isLoggedIn, onUpdateUser, showError, errorMessage, onLogout }
     const handleEditClick = () => {
         setIsEditClicked(true);
         setIsSaveClicked(false);
+
+        setValues(currentUser);
     }
 
     const handleSaveSubmit = (evt) => {
@@ -22,12 +24,17 @@ function Profile({ isLoggedIn, onUpdateUser, showError, errorMessage, onLogout }
         setIsSaveClicked(true);
         setIsEditClicked(false);
 
-        onUpdateUser(values);
+        if (values.name === currentUser.name && values.email === currentUser.email) {
+            return;
+        } else {
+            onUpdateUser(values);
+        }
     }
 
     const handleLogout = () => {
         onLogout();
     };
+
 
     return (
         <section className='profile'>
@@ -85,8 +92,8 @@ function Profile({ isLoggedIn, onUpdateUser, showError, errorMessage, onLogout }
                         <span className={`profile__input-error ${!isValid && 'profile__input-error_visible'}`}>
                             {errors.email || ''}
                         </span>
-                        <span className={`profile__error ${showError && 'profile__error_visible'}`}>
-                            {errorMessage}
+                        <span className={`profile__message profile__message_${showError ? 'error' : 'success'}`}>
+                            {showError ? errorMessage : isSaveClicked ? 'Данные пользователя успешно обновлены!' : ''}
                         </span>
                         <button
                             className={`profile__edit-button ${isEditClicked && 'profile__edit-button_hidden'}`}

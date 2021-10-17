@@ -1,4 +1,4 @@
-import { moviesOptions } from './options';
+import { MOVIES_OPTIONS } from './options';
 
 class Api {
     constructor(config) {
@@ -19,6 +19,6 @@ class Api {
     }
 }
 
-const moviesApi = new Api(moviesOptions);
+const moviesApi = new Api(MOVIES_OPTIONS);
 
 export default moviesApi;
