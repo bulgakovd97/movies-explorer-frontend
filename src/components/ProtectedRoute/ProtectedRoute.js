@@ -1,7 +1,7 @@
-import { Route, Redirect } from 'react-router-dom';
+import React, { Route, Redirect } from 'react-router-dom';
 import Preloader from '../Preloader/Preloader';
 
-function ProtectedRoute({ component: Component, ...props }) {
+const ProtectedRoute = ({ component: Component, ...props }) => {
   return (
     <Route>
       {props.isChecking ? (
@@ -11,6 +11,6 @@ function ProtectedRoute({ component: Component, ...props }) {
       )}
     </Route>
   );
-}
+};
 
 export default ProtectedRoute;

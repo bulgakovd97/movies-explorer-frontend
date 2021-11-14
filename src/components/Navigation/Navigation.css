@@ -1,3 +1,7 @@
+.nav-section {
+    
+}
+
 .navigation {
     display: flex;
     align-items: center;
@@ -295,12 +299,12 @@
         padding-bottom: 4px;
     }
 
-    .navigation__all-movies_selected {
+    .navigation-auth__all-movies_selected {
         border-bottom: 2px solid #fff;
         padding-bottom: 4px;
     }
 
-    .navigation__saved-movies_selected {
+    .navigation-auth__saved-movies_selected {
         border-bottom: 2px solid #fff;
         padding-bottom: 4px;
     }
@@ -319,11 +323,11 @@
         padding-bottom: 7px;
     }
 
-    .navigation__all-movies_selected {
+    .navigation-auth__all-movies_selected {
         padding-bottom: 7px;
     }
 
-    .navigation__saved-movies_selected {
+    .navigation-auth__saved-movies_selected {
         padding-bottom: 7px;
     }
 }

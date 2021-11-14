@@ -1,49 +1,52 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { SavedMoviesContext } from '../../contexts/SavedMoviesContext';
-import mainApi from '../../utils/MainApi';
 
 
-function SavedMovies({ isLoggedIn, showError, setShowError, errorMessage, setErrorMessage, searchTerm, setSearchTerm, noMoviesFound, setNoMoviesFound, noKeyword, setNoKeyword, filterMovies, checked, setChecked, isLiked, onMovieLike }) {
-    const [savedMovies, setSavedMovies] = useState([]);
+const SavedMovies = ({
+  isLoggedIn,
+  showError,
+  errorMessage,
+  searchTerm,
+  setSearchTerm,
+  checked,
+  setChecked,
+  isSending,
+  savedMovies,
+  onMovieLike,
+  onSavedSearch,
+  checkIsMovieSaved
+}) => {
 
-    const searchSavedMovies = () => {
-        console.log(savedMovies);
-    };
+  return (
+    <SavedMoviesContext.Provider value={savedMovies}>
+      <section className='saved-movies'>
+        <Header isLoggedIn={isLoggedIn} />
 
-    const getSavedMovies = () => {
-        return mainApi
-            .getMovies()
-            .then(savedMoviesData => {
-                console.log(savedMoviesData);
-                setSavedMovies(savedMoviesData);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
+        <SearchForm
+          onSavedSearch={onSavedSearch}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          checked={checked}
+          setChecked={setChecked}
+          isSending={isSending}
+        />
 
-    useEffect(() => {
-        getSavedMovies();
-    }, []);
-    
+        <MoviesCardList
+          showError={showError}
+          errorMessage={errorMessage}
+          onMovieLike={onMovieLike}
+          checkIsMovieSaved={checkIsMovieSaved}
+          isSending={isSending}
+        />
 
-    return (
-        <SavedMoviesContext.Provider value={savedMovies}>
-            <section className='saved-movies'>
-                <Header isLoggedIn={isLoggedIn} />
-
-                <SearchForm onSavedSearch={searchSavedMovies} searchTerm={searchTerm} setSearchTerm={setSearchTerm} checked={checked} setChecked={setChecked} />
-
-                <MoviesCardList showError={showError} errorMessage={errorMessage} noMoviesFound={noMoviesFound} noKeyword={noKeyword} isLiked={isLiked} onMovieLike={onMovieLike} />
-
-                <Footer />
-            </section>
-        </SavedMoviesContext.Provider>
-    )
-}
+        <Footer />
+      </section>
+    </SavedMoviesContext.Provider>
+  );
+};
 
 export default SavedMovies;

@@ -1,71 +1,62 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
-import moviesApi from '../../utils/MoviesApi';
 import { MoviesContext } from '../../contexts/MoviesContext';
-import { ERROR_MESSAGES } from '../../utils/errorMessage';
+import { SavedMoviesContext } from '../../contexts/SavedMoviesContext';
 
 
-function Movies({ isLoggedIn, showError, setShowError, errorMessage, setErrorMessage, searchTerm, setSearchTerm, noMoviesFound, setNoMoviesFound, noKeyword, setNoKeyword, filterMovies, checked, setChecked }) {
-    const [isMoviesLoading, setIsMoviesLoading] = useState(true);
+const Movies = ({
+  onSearch,
+  isLoggedIn,
+  showError,
+  errorMessage,
+  searchTerm,
+  setSearchTerm,
+  checked,
+  setChecked,
+  isSending,
+  movies,
+  isMoviesLoading,
+  onMovieLike,
+  savedMovies,
+  checkIsMovieSaved
+}) => {
 
-    const [movies, setMovies] = useState([]);
+  return (
+    <MoviesContext.Provider value={movies}>
+      <SavedMoviesContext.Provider value={savedMovies}>
+        <section className='movies'>
+          <Header isLoggedIn={isLoggedIn} />
 
-    const { SERVER_ERROR } = ERROR_MESSAGES;
+          <SearchForm
+            onSearch={onSearch}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            checked={checked}
+            setChecked={setChecked}
+            isSending={isSending}
+          />
 
-    const searchMovies = () => {
-        setNoMoviesFound(false);
-        setNoKeyword(false);
+          {isMoviesLoading ? (
+            <Preloader />
+          ) : (
+            <MoviesCardList
+              showError={showError}
+              errorMessage={errorMessage}
+              onMovieLike={onMovieLike}
+              checkIsMovieSaved={checkIsMovieSaved}
+              isSending={isSending}
+            />
+          )}
 
-        return moviesApi
-          .getBeatfilmMovies()
-          .then(moviesData => {
-            setIsMoviesLoading(false);
-
-            setShowError(false);
-            setErrorMessage('');
-
-            const filteredMovies = filterMovies(moviesData);
-
-            setMovies(filteredMovies);
-          })
-          .catch(err => {
-            setShowError(true);
-            setErrorMessage(SERVER_ERROR);
-          });
-    };
-
-    const getSearchedMovies = () => {
-      setMovies(JSON.parse(localStorage.getItem('searched-movies')));
-    };
-
-    useEffect(() => {
-      if (localStorage.getItem('searched-movies') !== '') {
-        setIsMoviesLoading(false);
-        getSearchedMovies();
-      } else {
-        setIsMoviesLoading(true);
-      }
-      
-    }, []);
-
-
-    return (
-        <MoviesContext.Provider value={movies}>
-            <section className='movies'>
-                <Header isLoggedIn={isLoggedIn} />
-
-                <SearchForm onSearch={searchMovies} searchTerm={searchTerm} setSearchTerm={setSearchTerm} checked={checked} setChecked={setChecked} />
-
-                {isMoviesLoading ? <Preloader /> : <MoviesCardList showError={showError} errorMessage={errorMessage} noMoviesFound={noMoviesFound} noKeyword={noKeyword} />}
-
-                <Footer />
-            </section>
-        </MoviesContext.Provider>
-    )
-}
+          <Footer />
+        </section>
+      </SavedMoviesContext.Provider>
+    </MoviesContext.Provider>
+  );
+};
 
 export default Movies;

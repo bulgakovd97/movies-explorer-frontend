@@ -84,6 +84,15 @@
     opacity: 0.5;
 }
 
+.card__like-button_disabled {
+  opacity: 0.5;
+}
+
+.card__like-button_disabled:hover {
+  cursor: auto;
+  opacity: 0.5;
+}
+
 .card__delete-button {
     background-image: url('../../images/remove.svg');
     background-repeat: no-repeat;
@@ -101,6 +110,15 @@
 .card__delete-button:hover {
     cursor: pointer;
     opacity: 0.5;
+}
+
+.card__delete-button_disabled {
+  opacity: 0.5;
+}
+
+.card__delete-button_disabled:hover {
+  cursor: auto;
+  opacity: 0.5;
 }
 
 .card__duration {

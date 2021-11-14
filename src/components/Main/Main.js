@@ -5,30 +5,30 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 
 
-function Main() {
-    const projectRef = useRef(null);
-    const techsRef = useRef(null);
-    const studentRef = useRef(null);
-    
-    return (
-        <main className='content'>
-            <Promo 
-                projectRef={projectRef}
-                techsRef={techsRef}
-                studentRef={studentRef}
-            />
+const Main = () => {
+  const projectRef = useRef(null);
+  const techsRef = useRef(null);
+  const studentRef = useRef(null);
 
-            <div className='container'>
-                <AboutProject myRef={projectRef} />
-            </div>
+  return (
+    <main className='content'>
+      <Promo
+        projectRef={projectRef}
+        techsRef={techsRef}
+        studentRef={studentRef}
+      />
 
-            <Techs myRef={techsRef} />
+      <div className='container'>
+        <AboutProject myRef={projectRef} />
+      </div>
 
-            <div className='container'>
-                <AboutMe myRef={studentRef} />
-            </div>
-        </main>
-    )
-}
+      <Techs myRef={techsRef} />
+
+      <div className='container'>
+        <AboutMe myRef={studentRef} />
+      </div>
+    </main>
+  );
+};
 
 export default Main;
