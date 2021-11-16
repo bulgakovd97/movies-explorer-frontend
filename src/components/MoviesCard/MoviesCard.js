@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { MOVIES_URL } from '../../utils/options';
+import { MOVIES_URL } from '../../utils/config';
 import { useLocation } from 'react-router';
 
 
-const MoviesCard = ({ movie, onMovieLike, checkIsMovieSaved, isSending }) => {
+const MoviesCard = ({
+    movie,
+    onMovieLike,
+    checkIsMovieSaved,
+    isSending
+  }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const location = useLocation();
@@ -35,7 +40,7 @@ const MoviesCard = ({ movie, onMovieLike, checkIsMovieSaved, isSending }) => {
 
   return (
     <li className='card'>
-      <a className='card__link' href={movie.trailerLink} target='_blank' rel='noreferrer'>
+      <a className={`card__link ${!movie.trailerLink && 'card__link_disabled'}`} href={movie.trailerLink} target='_blank' rel='noreferrer'>
         <img
           className='card__image'
           alt={movie.nameRU}

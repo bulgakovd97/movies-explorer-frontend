@@ -5,7 +5,14 @@ import { MoviesContext } from '../../contexts/MoviesContext';
 import { SavedMoviesContext } from '../../contexts/SavedMoviesContext';
 
 
-const MoviesCardList = ({ showError, errorMessage, onMovieLike, checkIsMovieSaved, isSending }) => {
+const MoviesCardList = ({
+    showError,
+    errorMessage,
+    onMovieLike,
+    checkIsMovieSaved,
+    isSending
+  }) => {
+
   const movies = useContext(MoviesContext);
   const savedMovies = useContext(SavedMoviesContext);
 

@@ -9,7 +9,11 @@
 }
 
 .card__link {
+  pointer-events: auto;
+}
 
+.card__link_disabled {
+  pointer-events: none;
 }
 
 .card__image {

@@ -1,19 +1,13 @@
+import { MAIN_URL, BEATFILMS_URL, HEADERS } from './config';
+
+
 export const MAIN_OPTIONS = {
-  url: 'http://localhost:3005',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
+  url: MAIN_URL,
+  headers: HEADERS,
 };
 
 
 export const MOVIES_OPTIONS = {
-  url: 'https://api.nomoreparties.co/beatfilm-movies',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
+  url: BEATFILMS_URL,
+  headers: HEADERS,
 };
-
-
-export const MOVIES_URL = 'https://api.nomoreparties.co';

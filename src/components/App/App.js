@@ -13,8 +13,9 @@ import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Tooltip from '../Tooltip/Tooltip';
 import { ERROR_MESSAGES } from '../../utils/errorMessage';
-import { MOVIES_URL } from '../../utils/options';
+import { MOVIES_URL } from '../../utils/config';
 
 
 const App = () => {
@@ -26,6 +27,8 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isMoviesLoading, setIsMoviesLoading] = useState(true);
+
+  const [isSavedMoviesLoading, setIsSavedMoviesLoading] = useState(true);
 
   const [isFirstRequest, setIsFirstRequest] = useState(true);
 
@@ -43,6 +46,8 @@ const App = () => {
 
   const [isRequestSending, setIsRequestSending] = useState(false);
 
+  const [isTooltipShow, setIsTooltipShow] = useState(false);
+
   const history = useHistory();
 
   const location = useLocation();
@@ -58,6 +63,32 @@ const App = () => {
   } = ERROR_MESSAGES;
 
   const keyword = searchTerm.trim();
+
+  const closeTooltip = () => {
+    setIsTooltipShow(false);
+  };
+
+  const handleEscUp = (evt) => {
+    if (evt.key === 'Escape') {
+      closeTooltip();
+    }
+  };
+
+  const handleOverlayClick = (evt) => {
+    if (evt.target.classList.contains("tooltip_opened")) {
+      closeTooltip();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleEscUp);
+    document.addEventListener('click', handleOverlayClick);
+
+    return () => {
+      document.removeEventListener('keyup', handleEscUp)
+      document.removeEventListener('click', handleOverlayClick);
+    };
+  }, []);
 
   // Посылаем запрос на получение массива всех фильмов
   const getAllMovies = () => {
@@ -227,10 +258,12 @@ const App = () => {
     return mainApi
       .getMovies()
       .then(savedMoviesData => {
+        console.log(savedMoviesData);
         setSavedMovies(savedMoviesData);
         localStorage.setItem('saved-movies', JSON.stringify(savedMoviesData));
       })
-      .catch(err => console.log('Ошибка загрузки сохранённых фильмов - ' + err.status));
+      .catch(err => console.log('Ошибка загрузки сохранённых фильмов - ' + err.status))
+      .finally(() => setIsSavedMoviesLoading(false));
   };
 
   // Отображение сохранённых фильмов
@@ -271,7 +304,10 @@ const App = () => {
         setSavedMovies([...savedMovies, savedMovie]);
         localStorage.setItem('saved-movies', JSON.stringify([...savedMovies, savedMovie]));
       })
-      .catch(err => console.log('Ошибка сохранения фильма - ' + err.status))
+      .catch(err => {
+        setIsTooltipShow(true);
+        console.log('Ошибка сохранения фильма - ' + err.status);
+      })
       .finally(() => setIsRequestSending(false));
   };
 
@@ -395,6 +431,7 @@ const App = () => {
     localStorage.setItem('movies', JSON.stringify([]));
     setIsLoggedIn(false);
     setIsMoviesLoading(true);
+    setIsSavedMoviesLoading(true);
     setIsFirstRequest(true);
     history.push('/');
   };
@@ -516,6 +553,7 @@ const App = () => {
             setChecked={setChecked}
             isChecking={isChecking}
             savedMovies={savedMovies}
+            isSavedMoviesLoading={isSavedMoviesLoading}
             setSavedMovies={setSavedMovies}
             isSending={isRequestSending}
             onMovieLike={handleMovieLike}
@@ -527,6 +565,8 @@ const App = () => {
             <WrongRoute />
           </Route>
         </Switch>
+
+        <Tooltip isTooltipShow={isTooltipShow} onClose={closeTooltip} />
 
       </div>
     </CurrentUserContext.Provider>

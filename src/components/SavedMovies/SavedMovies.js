@@ -4,6 +4,7 @@ import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { SavedMoviesContext } from '../../contexts/SavedMoviesContext';
+import Preloader from '../Preloader/Preloader';
 
 
 const SavedMovies = ({
@@ -15,6 +16,7 @@ const SavedMovies = ({
   checked,
   setChecked,
   isSending,
+  isSavedMoviesLoading,
   savedMovies,
   onMovieLike,
   onSavedSearch,
@@ -35,13 +37,17 @@ const SavedMovies = ({
           isSending={isSending}
         />
 
-        <MoviesCardList
-          showError={showError}
-          errorMessage={errorMessage}
-          onMovieLike={onMovieLike}
-          checkIsMovieSaved={checkIsMovieSaved}
-          isSending={isSending}
-        />
+        {isSavedMoviesLoading ? (
+          <Preloader />
+        ) : (
+          <MoviesCardList
+            showError={showError}
+            errorMessage={errorMessage}
+            onMovieLike={onMovieLike}
+            checkIsMovieSaved={checkIsMovieSaved}
+            isSending={isSending}
+          />
+        )}
 
         <Footer />
       </section>
