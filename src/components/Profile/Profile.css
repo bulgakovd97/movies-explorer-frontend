@@ -75,7 +75,7 @@
 .profile__input::-webkit-input-placeholder {
     color: #c4c4c4;
 }
-  
+
 .profile__input::-moz-placeholder {
     color: #c4c4c4;
 }
@@ -232,9 +232,5 @@
     .profile__logout {
         font-size: 12px;
         line-height: 15px;
-    }
-
-    .profile__message {
-        margin-top: 134.235%;
     }
 }

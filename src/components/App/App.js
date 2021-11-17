@@ -258,7 +258,6 @@ const App = () => {
     return mainApi
       .getMovies()
       .then(savedMoviesData => {
-        console.log(savedMoviesData);
         setSavedMovies(savedMoviesData);
         localStorage.setItem('saved-movies', JSON.stringify(savedMoviesData));
       })
