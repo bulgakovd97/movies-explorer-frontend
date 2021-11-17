@@ -1,6 +1,4 @@
-export const MAIN_URL = 'http://localhost:3005'
-                   || 'https://api.movies.bulgakovd.nomoredomains.club'
-                   || 'http://api.movies.bulgakovd.nomoredomains.club';
+export const MAIN_URL = 'https://api.movies.bulgakovd.nomoredomains.club';
 
 export const BEATFILMS_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 
