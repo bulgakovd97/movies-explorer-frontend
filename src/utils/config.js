@@ -1,4 +1,6 @@
-export const MAIN_URL = 'https://api.movies.bulgakovd.nomoredomains.club';
+const { production } = process.env;
+
+export const MAIN_URL = production ? 'https://api.movies.bulgakovd.nomoredomains.club' : 'http://localhost:3005';
 
 export const BEATFILMS_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 
